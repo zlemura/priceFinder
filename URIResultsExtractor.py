@@ -24,8 +24,6 @@ def extract_results_from_data(data, uri_type):
 
     listing_list = []
 
-    extract_listing_url(li_s_item_list[0])
-
     for item in li_s_item_list:
         title = extract_listing_title(item)
         price = extract_listing_price(item)

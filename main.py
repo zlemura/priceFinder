@@ -5,10 +5,7 @@ instance_var_name, function_parameter_name, local_var_name.
 
 #TODO:
 #Perform string match between search term (player details) and ebay listing. If above set confidence, consider.
-#Create list of lowest priced items.
-#Fetch webpage request for created sold URI.
 #Perform string match between search term (player details) and sold listing. If above set confidence, consider.\
-#Create list of sold listings.
 
 #Class imports
 import URICreator, URIFetcher, URIResultsExtractor
