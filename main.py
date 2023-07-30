@@ -4,8 +4,10 @@ instance_var_name, function_parameter_name, local_var_name.
 '''
 
 #TODO:
+#Create class for Item - holds search_term, Listing arrays (for later analysis), search_term name, urls etc.
+#Use Item object to perform data analysis.
 #Perform string match between search term (player details) and ebay listing. If above set confidence, consider.
-#Perform string match between search term (player details) and sold listing. If above set confidence, consider.\
+#Perform string match between search term (player details) and sold listing. If above set confidence, consider.
 
 #Class imports
 import URICreator, URIFetcher, URIResultsExtractor
