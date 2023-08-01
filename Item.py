@@ -1,5 +1,6 @@
 class Item:
-    def __init__(self, search_term, lowest_uri, sold_uri, lowest_listings, sold_listings):
+    def __init__(self, search_term, lowest_uri, sold_uri, lowest_listings, sold_listings, lowest_listing_url, lowest_listing_value
+                 ,average_lowest_listing_value):
         self.search_term = search_term
         self.lowest_uri = lowest_uri
         self.sold_uri = sold_uri
@@ -11,3 +12,6 @@ class Item:
             self.sold_listings = []
         else:
             self.sold_listings = sold_listings
+        self.lowest_listing_url = lowest_listing_url
+        self.lowest_listing_value = lowest_listing_value
+        self.average_lowest_listing_value =  average_lowest_listing_value

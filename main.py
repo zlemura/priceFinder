@@ -9,12 +9,15 @@ instance_var_name, function_parameter_name, local_var_name.
 #Perform string match between search term (player details) and sold listing. If above set confidence, consider.
 
 #Class imports
-import ItemCreator
+import ItemCreator, ItemAnalyser
 
 def main():
+
     search_term = 'Andres Iniesta 398 2003-04 Panini La Liga Megapromesas'
 
     item = ItemCreator.create_item_from_search_term(search_term)
+
+    ItemAnalyser.analyse_item_data(item)
 
 if __name__ == "__main__":
     main()

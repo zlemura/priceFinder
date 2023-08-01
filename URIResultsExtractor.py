@@ -46,6 +46,9 @@ def extract_listing_title(listing_soup):
 
 def extract_listing_price(listing_soup):
     price = listing_soup.find('span', class_='s-item__price').getText().replace("$","")
+    if 'to' in price:
+        split_price = price.split('to')
+        price = float(split_price[0])
     return price
 
 def extract_listing_end_date(listing_soup):

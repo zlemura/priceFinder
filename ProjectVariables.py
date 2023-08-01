@@ -1,0 +1,1 @@
+grading_company_prefixes = ['PSA', 'BGS', 'SGC', 'CSG', 'HGA', 'TAG', 'BVG']
