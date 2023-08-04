@@ -4,16 +4,14 @@ instance_var_name, function_parameter_name, local_var_name.
 '''
 
 #TODO:
-#Use Item object to perform data analysis.
-#Perform string match between search term (player details) and ebay listing. If above set confidence, consider.
-#Perform string match between search term (player details) and sold listing. If above set confidence, consider.
+#Include logic for best offer accepted for sold listings.
 
 #Class imports
 import ItemCreator, ItemAnalyser
 
 def main():
 
-    search_term = 'Andres Iniesta 398 2003-04 Panini La Liga Megapromesas'
+    search_term = '2020 PANINI CHRONICLES PRIZM BUKAYO SAKA SEALED SILVER AUTO'
 
     item = ItemCreator.create_item_from_search_term(search_term)
 

@@ -45,7 +45,7 @@ def extract_listing_title(listing_soup):
     return title
 
 def extract_listing_price(listing_soup):
-    price = listing_soup.find('span', class_='s-item__price').getText().replace("$","")
+    price = listing_soup.find('span', class_='s-item__price').getText().replace("$","").replace(",","")
     if 'to' in price:
         split_price = price.split('to')
         price = float(split_price[0])
@@ -57,7 +57,10 @@ def extract_listing_end_date(listing_soup):
     return endDate
 
 def extract_listing_type(listing_soup):
-    listing_type = listing_soup.find('span', class_='s-item__purchase-options s-item__purchaseOptions').getText().strip()
+    try:
+        listing_type = listing_soup.find('span', class_='s-item__purchase-options s-item__purchaseOptions').getText().strip()
+    except:
+        listing_type = 'Auction'
     return listing_type
 
 def extract_listing_url(listing_soup):
