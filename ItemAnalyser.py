@@ -46,7 +46,7 @@ def analyse_lowest_listing_data(item):
             lowest_listing_value = float(listing.price)
             continue
         if float(listing.price) < lowest_listing_value:
-            if listing.listType in ['Buy It Now', 'or Best Offer']:
+            if listing.list_type in ['Buy It Now', 'or Best Offer']:
                 lowest_listing_url = listing.url
                 lowest_listing_value = float(listing.price)
     #Print lowest listing.

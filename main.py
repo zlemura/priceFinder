@@ -4,7 +4,7 @@ instance_var_name, function_parameter_name, local_var_name.
 '''
 
 #TODO:
-#Include logic for best offer accepted for sold listings.
+#Sold
 
 #Class imports
 import ItemCreator, ItemAnalyser
@@ -15,7 +15,8 @@ def main():
 
     item = ItemCreator.create_item_from_search_term(search_term)
 
-    ItemAnalyser.analyse_item_data(item)
+    for listing in item.sold_listings:
+        print(listing.__dict__)
 
 if __name__ == "__main__":
     main()

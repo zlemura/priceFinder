@@ -36,7 +36,11 @@ def extract_results_from_data(data, uri_type):
         else:
             listing_type = 'N/A'
         url = extract_listing_url(item)
-        listing_list.append(Listing(title,price,end_date,listing_type,url))
+        if uri_type == 'S':
+            sold_type = extract_sold_type(item)
+        else:
+            sold_type = 'N/A'
+        listing_list.append(Listing(title,price,end_date,listing_type,url, sold_type))
 
     return listing_list
 
@@ -52,9 +56,9 @@ def extract_listing_price(listing_soup):
     return price
 
 def extract_listing_end_date(listing_soup):
-    endDate = listing_soup.find('div', class_='s-item__title--tag').find('span', class_='POSITIVE').getText()
-    endDate = endDate.replace('Sold ','').strip()
-    return endDate
+    end_date = listing_soup.find('div', class_='s-item__title--tag').find('span', class_='POSITIVE').getText()
+    end_date = end_date.replace('Sold ','').strip()
+    return end_date
 
 def extract_listing_type(listing_soup):
     try:
@@ -67,5 +71,11 @@ def extract_listing_url(listing_soup):
     url = str(listing_soup.find('div', class_='s-item__image')).split('href="')[1].split('"')[0]
     return url
 
-# create class for each listing type.
-# Convert HTML to object list.
+def extract_sold_type(listing_soup):
+    try:
+        listing_type = listing_soup.find('span', class_='s-item__purchase-options s-item__purchaseOptions').getText().strip()
+        if listing_type != 'Best offer accepted':
+            listing_type = 'Sale'
+    except:
+        listing_type = 'Sale'
+    return listing_type
