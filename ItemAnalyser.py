@@ -6,7 +6,6 @@ import ProjectVariables
 
 
 #TODO
-#Properly exclude results of listings based on similarity score.
 
 def analyse_item_data(item):
     #Lowest listings
@@ -55,7 +54,9 @@ def analyse_lowest_listing_data(item):
     #Print lowest listing.
     #print('Lowest price is - ' + lowest_listing_value.__str__() + ' at listing - ' + lowest_listing_url)
     #Find average value of all lowest listings.
-    average_listing_value = total_listing_value/total_listing_count
+    average_listing_value = 0
+    if total_listing_count != 0:
+        average_listing_value = total_listing_value/total_listing_count
     #print('The average listing value is - ' + average_listing_value.__str__())
     #Update item with new values.
     item.lowest_listing_url = lowest_listing_url
