@@ -1,7 +1,4 @@
 # TODO
-# Determine fetching for key fields for both lowest and sold.
-
-# Create Class for listing - aiming for one for both types of listings.
 
 from bs4 import BeautifulSoup
 from datetime import datetime
