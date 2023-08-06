@@ -19,20 +19,20 @@ def analyse_item_data(item):
     return item
 
 def exclude_lowest_listings_from_item(item):
-    temp_lowest_listings = item.lowest_listings
-    #print(len(item.lowest_listings))
-    #Loop through all lowest listings.
-    for listing in temp_lowest_listings:
-        #print('Processing listing - ' + listing.title + ' - ' + listing.url)
+    temp_lowest_listings = []
+    for listing in item.lowest_listings:
         similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
-        #print('The similairty score is - ' + similarity_score.__str__())
-        if similarity_score < 95:
-            #print("removing " + listing.title + " " + listing.url + " from lowest listings")
-            item.lowest_listings.remove(listing)
-            continue
-        if item.search_term not in ProjectVariables.grading_company_prefixes:
-            item.lowest_listings.remove(listing)
-    #print(len(item.lowest_listings))
+        if similarity_score > 90:
+            for company_name in ProjectVariables.grading_company_prefixes:
+                if company_name in listing.title:
+                    if company_name in item.search_term:
+                        temp_lowest_listings.append(listing)
+                        continue
+                    else:
+                        continue
+            temp_lowest_listings.append(listing)
+
+    item.lowest_listings = temp_lowest_listings
     return item
 
 def analyse_lowest_listing_data(item):
@@ -94,20 +94,20 @@ def analyse_sold_listing_data(item):
     return item
 
 def exclude_sold_listings_from_item(item):
-    print(len(item.sold_listings))
-    temp_sold_listings = item.sold_listings
-    # Loop through all lowest listings.
-    for listing in temp_sold_listings:
-        print('Processing listing - ' + listing.title + ' - ' + listing.url)
+    temp_sold_listings = []
+    for listing in item.sold_listings:
         similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
-        print('The similairty score is - ' + similarity_score.__str__())
-        if similarity_score < 95:
-            print("removing " + listing.title + " " + listing.url + " from sold listings")
-            item.sold_listings.remove(listing)
-            continue
-        if item.search_term not in ProjectVariables.grading_company_prefixes:
-            item.sold_listings.remove(listing)
-    print(len(item.sold_listings))
+        if similarity_score > 90:
+            for company_name in ProjectVariables.grading_company_prefixes:
+                if company_name in listing.title:
+                    if company_name in item.search_term:
+                        temp_sold_listings.append(listing)
+                        continue
+                    else:
+                        continue
+            temp_sold_listings.append(listing)
+
+    item.sold_listings = temp_sold_listings
     return item
 
 def compare_strings_for_similarity(s1, s2):

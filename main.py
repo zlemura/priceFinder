@@ -12,7 +12,7 @@ import ItemCreator, ItemAnalyser
 
 def main():
 
-    search_term = 'Cristiano Ronaldo #AT-CR7 Atomic Material /149 Patch 2020-21 Panini Obsidian Soccer'
+    search_term = 'Charles De Ketelaere #FS-5 Future Stars 2021-22 Topps UEFA Champions League'
 
     item = ItemCreator.create_item_from_search_term(search_term)
 
@@ -28,11 +28,6 @@ def main():
     print(item.six_month_sold_average)
     print(item.twelve_month_sold_average)
 
-    for listing in item.sold_listings:
-        print(listing.title, listing.url)
-
-    #for listing in item.lowest_listings:
-        #print(listing.title, listing.url)
 
 if __name__ == "__main__":
     main()
