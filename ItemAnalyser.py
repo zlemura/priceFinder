@@ -1,35 +1,38 @@
-import jellyfish
+from datetime import date
+from dateutil import relativedelta
 from thefuzz import fuzz
 
 import ProjectVariables
 
 
 #TODO
-#Remove listings that aren't a match in set threshold.
-#Summarise lowest listing data.
-##Current lowest listing (excluding auctions), average listing value (of all listings for search_term)
-#Summarise sold listing data.
+#Properly exclude results of listings based on similarity score.
 
 def analyse_item_data(item):
     #Lowest listings
-    item = exclude_listings_from_item(item)
+    item = exclude_lowest_listings_from_item(item)
     item = analyse_lowest_listing_data(item)
+    #Sold listings
+    item = exclude_sold_listings_from_item(item)
+    item = analyse_sold_listing_data(item)
 
+    return item
 
-
-
-def exclude_listings_from_item(item):
+def exclude_lowest_listings_from_item(item):
     temp_lowest_listings = item.lowest_listings
+    #print(len(item.lowest_listings))
     #Loop through all lowest listings.
     for listing in temp_lowest_listings:
-        print('Processing listing - ' + listing.title + ' - ' + listing.url)
+        #print('Processing listing - ' + listing.title + ' - ' + listing.url)
         similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
-        print('The similairty score is - ' + similarity_score.__str__())
-        if similarity_score < 50:
+        #print('The similairty score is - ' + similarity_score.__str__())
+        if similarity_score < 95:
+            #print("removing " + listing.title + " " + listing.url + " from lowest listings")
             item.lowest_listings.remove(listing)
             continue
         if item.search_term not in ProjectVariables.grading_company_prefixes:
             item.lowest_listings.remove(listing)
+    #print(len(item.lowest_listings))
     return item
 
 def analyse_lowest_listing_data(item):
@@ -70,7 +73,42 @@ def analyse_sold_listing_data(item):
     #12 month average
     twelve_month_average_value = 0
 
+    for listing in item.sold_listings:
+        delta = relativedelta.relativedelta(date.today(), listing.end_date)
+        if delta.months <= 1:
+            one_month_average_value += float(listing.price)
+            continue
+        elif delta.months <= 3:
+            three_month_average_value += float(listing.price)
+            continue
+        elif delta.months <= 6:
+            six_month_average_value += float(listing.price)
+        elif delta.months <=12:
+            twelve_month_average_value += float(listing.price)
 
+    item.one_month_sold_average = one_month_average_value
+    item.three_month_sold_average = three_month_average_value
+    item.six_month_sold_average = six_month_average_value
+    item.twelve_month_sold_average = twelve_month_average_value
+
+    return item
+
+def exclude_sold_listings_from_item(item):
+    print(len(item.sold_listings))
+    temp_sold_listings = item.sold_listings
+    # Loop through all lowest listings.
+    for listing in temp_sold_listings:
+        print('Processing listing - ' + listing.title + ' - ' + listing.url)
+        similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
+        print('The similairty score is - ' + similarity_score.__str__())
+        if similarity_score < 95:
+            print("removing " + listing.title + " " + listing.url + " from sold listings")
+            item.sold_listings.remove(listing)
+            continue
+        if item.search_term not in ProjectVariables.grading_company_prefixes:
+            item.sold_listings.remove(listing)
+    print(len(item.sold_listings))
+    return item
 
 def compare_strings_for_similarity(s1, s2):
     return fuzz.token_set_ratio(s1, s2)

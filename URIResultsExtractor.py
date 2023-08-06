@@ -4,6 +4,7 @@
 # Create Class for listing - aiming for one for both types of listings.
 
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 #Class imports
 from Listing import Listing
@@ -58,7 +59,8 @@ def extract_listing_price(listing_soup):
 def extract_listing_end_date(listing_soup):
     end_date = listing_soup.find('div', class_='s-item__title--tag').find('span', class_='POSITIVE').getText()
     end_date = end_date.replace('Sold ','').strip()
-    return end_date
+    end_date_object = datetime.strptime(end_date, "%b %d, %Y").date()
+    return end_date_object
 
 def extract_listing_type(listing_soup):
     try:
