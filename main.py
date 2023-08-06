@@ -6,14 +6,13 @@ import random
 import time
 
 #TODO:
-#Handle list of items.
-#Handle output - for all listing results and summarised.
+#Create .csv files for summarised data and all results.
 
 #Class imports
-import ItemAnalyser, ItemCreator, SearchTermsExtract
+import ItemAnalyser, ItemCreator, ResultsFileGenerator, SearchTermsExtract
 
 def main():
-    search_term_limit = 10
+    search_term_limit = 5
     #search_term_limit = None
     search_terms = SearchTermsExtract.extract_search_terms(search_term_limit)
     items = []
@@ -27,8 +26,7 @@ def main():
         items.append(item)
         print("Processed item " + (i + 1).__str__() + " of " + len(search_terms).__str__())
         i += 1
-    for item in items:
-        print(item.__dict__)
+    ResultsFileGenerator.generate_output_file(items)
 
 if __name__ == "__main__":
     main()

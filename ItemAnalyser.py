@@ -60,8 +60,8 @@ def analyse_lowest_listing_data(item):
     #print('The average listing value is - ' + average_listing_value.__str__())
     #Update item with new values.
     item.lowest_listing_url = lowest_listing_url
-    item.lowest_listing_value = lowest_listing_value
-    item.average_lowest_listing_value = average_listing_value
+    item.lowest_listing_value = round(lowest_listing_value, 2)
+    item.average_lowest_listing_value = round(average_listing_value, 2)
     return item
 
 def analyse_sold_listing_data(item):
@@ -87,10 +87,10 @@ def analyse_sold_listing_data(item):
         elif delta.months <=12:
             twelve_month_average_value += float(listing.price)
 
-    item.one_month_sold_average = one_month_average_value
-    item.three_month_sold_average = three_month_average_value
-    item.six_month_sold_average = six_month_average_value
-    item.twelve_month_sold_average = twelve_month_average_value
+    item.one_month_sold_average = round(one_month_average_value, 2)
+    item.three_month_sold_average = round(three_month_average_value, 2)
+    item.six_month_sold_average = round(six_month_average_value, 2)
+    item.twelve_month_sold_average = round(twelve_month_average_value, 2)
 
     return item
 
