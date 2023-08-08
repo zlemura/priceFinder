@@ -5,7 +5,7 @@ import os
 
 def add_search_term_result_to_results_file(search_term_file_name, search_term, lowest_listing_value, average_lowest_listing_value
                                    ,one_month_sold_average, three_month_sold_average, six_month_sold_average, twelve_month_sold_average):
-    with(open("results/" + search_term_file_name, 'a')) as file:
+    with(open("results/" + search_term_file_name, 'a', encoding="utf-8")) as file:
         search_terms_file_writer = csv.writer(file)
         search_terms_file_writer.writerow([search_term, lowest_listing_value, average_lowest_listing_value
                                    ,one_month_sold_average, three_month_sold_average, six_month_sold_average,
@@ -14,10 +14,21 @@ def add_search_term_result_to_results_file(search_term_file_name, search_term, l
 
 def add_search_term_listing_result_to_results_file(search_term_listings_file_name, search_term, listing_type, title, price, end_date,
                                            list_type, url, sold_type):
-    with(open("results/" + search_term_listings_file_name, 'a')) as file:
+    with(open("results/" + search_term_listings_file_name, 'a', encoding="utf-8")) as file:
         listings_writer = csv.writer(file)
-        listings_writer.writerow([search_term, listing_type, title, price, end_date,
+        try:
+            listings_writer.writerow([search_term, listing_type, title, price, end_date,
                                            list_type, url, sold_type])
+        except Exception as e:
+            print(e)
+            print(search_term, type(search_term))
+            print(listing_type, type(list_type))
+            print(title, type(title))
+            print(end_date, type(end_date))
+            print(listing_type, type(listing_type))
+            print(url, type(url))
+            print(sold_type, type(sold_type))
+            SystemExit.code(0)
     file.close()
 
 def search_results_file_for_value(file_name, search_value):

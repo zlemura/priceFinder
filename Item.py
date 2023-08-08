@@ -1,6 +1,7 @@
 class Item:
     def __init__(self, search_term, lowest_uri, sold_uri, lowest_listings, sold_listings, lowest_listing_url, lowest_listing_value
-                 ,average_lowest_listing_value, one_month_sold_average, three_month_sold_average, six_month_sold_average, twelve_month_sold_average):
+                 ,average_lowest_listing_value, one_month_sold_average, three_month_sold_average, six_month_sold_average, twelve_month_sold_average,
+                 database_record):
         self.search_term = search_term
         self.lowest_uri = lowest_uri
         self.sold_uri = sold_uri
@@ -19,3 +20,4 @@ class Item:
         self.three_month_sold_average = three_month_sold_average
         self.six_month_sold_average = six_month_sold_average
         self.twelve_month_sold_average = twelve_month_sold_average
+        self.database_record = database_record

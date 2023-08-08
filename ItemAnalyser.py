@@ -6,6 +6,7 @@ import ProjectVariables
 
 
 #TODO
+#Refactor exclude logic to match exact terms from item.
 
 def analyse_item_data(item):
     #Lowest listings
@@ -20,17 +21,8 @@ def analyse_item_data(item):
 def exclude_lowest_listings_from_item(item):
     temp_lowest_listings = []
     for listing in item.lowest_listings:
-        similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
-        if similarity_score > 90:
-            for company_name in ProjectVariables.grading_company_prefixes:
-                if company_name in listing.title:
-                    if company_name in item.search_term:
-                        temp_lowest_listings.append(listing)
-                        continue
-                    else:
-                        continue
+        if determine_if_listing_title_is_similar_enough_to_item(item.database_record, listing):
             temp_lowest_listings.append(listing)
-
     item.lowest_listings = temp_lowest_listings
     return item
 
@@ -64,6 +56,14 @@ def analyse_lowest_listing_data(item):
     item.average_lowest_listing_value = round(average_listing_value, 2)
     return item
 
+def exclude_sold_listings_from_item(item):
+    temp_sold_listings = []
+    for listing in item.sold_listings:
+        if determine_if_listing_title_is_similar_enough_to_item(item.database_record, listing):
+            temp_sold_listings.append(listing)
+    item.sold_listings = temp_sold_listings
+    return item
+
 def analyse_sold_listing_data(item):
     #1 month average
     one_month_average_value = 0
@@ -94,22 +94,28 @@ def analyse_sold_listing_data(item):
 
     return item
 
-def exclude_sold_listings_from_item(item):
-    temp_sold_listings = []
-    for listing in item.sold_listings:
-        similarity_score = compare_strings_for_similarity(item.search_term, listing.title)
-        if similarity_score > 90:
-            for company_name in ProjectVariables.grading_company_prefixes:
-                if company_name in listing.title:
-                    if company_name in item.search_term:
-                        temp_sold_listings.append(listing)
-                        continue
-                    else:
-                        continue
-            temp_sold_listings.append(listing)
-
-    item.sold_listings = temp_sold_listings
-    return item
-
 def compare_strings_for_similarity(s1, s2):
     return fuzz.token_set_ratio(s1, s2)
+
+def determine_if_listing_title_is_similar_enough_to_item(database_record, listing):
+    #Determine if player_name exists in listing.title.
+    if database_record.player_name not in listing.title:
+        return False
+    #Determine if number in listing.title
+    if database_record.number.__str__() not in listing.title:
+        return False
+    #Determine if is_numbered in listing.title, if required.
+    if database_record.numbered != "":
+        if database_record.numbered not in listing.title:
+            return False
+    #Determine if grading_company_name and grade in listing.title.
+    if database_record.grading_company != "":
+        if database_record.grading_company not in listing.title:
+            return False
+        if database_record.grade.__str__() not in listing.title:
+            return False
+    else:
+        for company_code in ProjectVariables.grading_company_prefixes:
+            if company_code in listing.title:
+                return False
+    return True
